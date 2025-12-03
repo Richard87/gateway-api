@@ -3,7 +3,8 @@
 ```shell
 # Setup Gateway API
 k apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4.0/experimental-install.yaml
-istioctl install --set profile=minimal -y
+helm repo add istio https://istio-release.storage.googleapis.com/charts
+helm install istiod istio/istiod -n istio-system --values values.yaml --version 1.27.1  --wait
 
 # Install default gateway
 k apply -f istio.yaml 
