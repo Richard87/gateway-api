@@ -7,9 +7,12 @@ env:
 istiod:
   enableAnalysis: true
 
-logging:
-  level: "default:debug"
-
 meshConfig:
-  accessLogEncoding: TEXT
+  accessLogEncoding: JSON
   accessLogFile: /dev/stdout
+
+global:
+  logging:
+    level: "default:debug"
+
+  logAsJson: true
