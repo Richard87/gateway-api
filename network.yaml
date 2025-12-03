@@ -16,6 +16,18 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
+    - name: https
+      hostname: "*.example.com"
+      port: 443
+      protocol: HTTPS
+      tls:
+        mode: Terminate
+        certificateRefs:
+          - name: cert
+            kind: Secret
+      allowedRoutes:
+        namespaces:
+          from: All
 ---
 apiVersion: gateway.networking.x-k8s.io/v1alpha1
 kind: XListenerSet
@@ -29,7 +41,14 @@ spec:
     group: gateway.networking.k8s.io
     namespace: istio-system
   listeners:
-    - name: https
+    - name: http
+      hostname: "httpbin.example.com"
+      port: 80
+      protocol: HTTP
+      allowedRoutes:
+        namespaces:
+          from: All
+    - name: https-ls
       hostname: "httpbin.example.com"
       port: 443
       protocol: HTTPS
@@ -45,37 +64,14 @@ spec:
 apiVersion: gateway.networking.k8s.io/v1
 kind: HTTPRoute
 metadata:
-  name: https
+  name: combined
   namespace: httpbin
 spec:
   parentRefs:
     - name: ns-listener
+      namespace: httpbin
       kind: XListenerSet
       group: gateway.networking.x-k8s.io
-      namespace: httpbin
-      sectionName: https
-  hostnames: ["httpbin.example.com"]
-  rules:
-    - matches:
-        - path:
-            type: PathPrefix
-            value: /
-      backendRefs:
-        - name: httpbin
-          port: 8000
----
-apiVersion: gateway.networking.k8s.io/v1
-kind: HTTPRoute
-metadata:
-  name: http
-  namespace: httpbin
-spec:
-  parentRefs:
-    - name: gateway
-      kind: Gateway
-      group: gateway.networking.k8s.io
-      namespace: istio-system
-      sectionName: http
   hostnames: ["httpbin.example.com"]
   rules:
     - matches:
