@@ -26,10 +26,13 @@ go install sigs.k8s.io/cloud-provider-kind@latest
 cloud-provider-kind
 ```
 
-
-
 ```shell
 export LB_IP=$(kubectl get svc/gateway-istio --namespace istio-system -o=jsonpath='{.status.loadBalancer.ingress[0].ip}') && echo $LB_IP
+
+# Test endpoint
 curl -k https://httpbin.example.com/json --resolve httpbin.example.com:443:${LB_IP} -v
 curl http://httpbin.example.com/json --resolve httpbin.example.com:80:${LB_IP} -v
+
+# Read config
+istioctl proxy-config all deployment/gateway-istio.istio-system
 ```
