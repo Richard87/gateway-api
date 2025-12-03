@@ -16,10 +16,3 @@ spec:
       allowedRoutes:
         namespaces:
           from: All
-    - name: https
-      hostname: "*.example.com"
-      port: 443
-      protocol: HTTPS
-      allowedRoutes:
-        namespaces:
-          from: All
