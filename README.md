@@ -10,7 +10,7 @@ k apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4
 # Install Istio
 helm repo add istio https://istio-release.storage.googleapis.com/charts
 helm install istiod istio/istiod -n istio-system --values values.yaml --version 1.28.0 --create-namespace  --wait
-# helm upgrade istiod istio/istiod -n istio-system --version 1.28.0 --values values.yaml
+# helm upgrade istiod istio/istiod -n istio-system --version 1.27.1 --values values.yaml
 
 # Install demo app
 k apply -f httpbin.yaml
