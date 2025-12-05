@@ -9,8 +9,8 @@ k apply -f https://github.com/kubernetes-sigs/gateway-api/releases/download/v1.4
 
 # Install Istio
 helm repo add istio https://istio-release.storage.googleapis.com/charts
-helm install istiod istio/istiod -n istio-system --values values.yaml --version 1.28.0 --create-namespace  --wait
-# helm upgrade istiod istio/istiod -n istio-system --version 1.27.1 --values values.yaml
+helm install istiod istio/istiod -n istio-system --values values.yaml --version 1.28.1 --create-namespace  --wait
+# helm upgrade istiod istio/istiod -n istio-system --version 1.28.1 --values values.yaml
 
 # Install demo app
 k apply -f httpbin.yaml
@@ -26,6 +26,7 @@ go install sigs.k8s.io/cloud-provider-kind@latest
 cloud-provider-kind
 ```
 
+## Smoketests
 ```shell
 export LB_IP=$(kubectl get svc/gateway-istio --namespace istio-system -o=jsonpath='{.status.loadBalancer.ingress[0].ip}') && echo $LB_IP
 
